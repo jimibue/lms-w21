@@ -13,6 +13,9 @@ class Navbar extends React.Component {
         <Link to="/things">
           <Menu.Item active={location.pathname == "/things"}>Things</Menu.Item>
         </Link>
+        <Link to="/grades">
+          <Menu.Item active={location.pathname == "/grades"}>Grades</Menu.Item>
+        </Link>
         <Link to="/components">
           <Menu.Item active={location.pathname == "/components"}>
             Components

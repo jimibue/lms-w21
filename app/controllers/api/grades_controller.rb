@@ -1,5 +1,5 @@
 class Api::GradesController < ApplicationController
-  before_action :set_grade, only: [:show, :destroy]
+  before_action :set_grade, only: [:show, :destroy, :update]
 
   def index
     # class method it is called on class
@@ -23,6 +23,14 @@ class Api::GradesController < ApplicationController
     end
   end
 
+  def update
+    if (@grade.update(grade_params_update))
+      render json: @grade
+    else
+      render json: { error: @grade.errors }, status: 422
+    end
+  end
+
   private
 
   def set_grade
@@ -31,5 +39,9 @@ class Api::GradesController < ApplicationController
 
   def grade_params
     params.require(:grade).permit(:score, :user_id, :skill_id)
+  end
+
+  def grade_params_update
+    params.require(:grade).permit(:score)
   end
 end
