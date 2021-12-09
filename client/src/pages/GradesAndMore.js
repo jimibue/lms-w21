@@ -7,6 +7,7 @@ import useAxiosOnMount from "../hooks/useAxiosOnMount";
 import SematicLoader from "../components/SemanticLoader";
 import List from "../components/List";
 import Grade from "./Grade";
+import GradeForm from "../components/GradeForm";
 
 const GradesAndMore = () => {
   const {
@@ -21,17 +22,27 @@ const GradesAndMore = () => {
   const addGrade = async (grade) => {
     try {
       let res = await axios.post(`/api/grades`, grade);
-      setGrades([res.data, ...grades]);
+      let user = users.find((u) => u.id === res.data.user_id);
+      let skill = skills.find((s) => s.id === res.data.skill_id);
+      setGrades([
+        { ...res.data, user_name: user.name, skill_name: skill.name },
+        ...grades,
+      ]);
     } catch (err) {
       console.log("YOYOYOYOYO");
       console.log(err);
       console.log(err.response);
     }
   };
+
   const handleSubmit = () => {};
   return (
     <div>
       <h1>GradesAndMore</h1>
+      {users && skills && (
+        <GradeForm users={users} skills={skills} addGrade={addGrade} />
+      )}
+      <Divider />
       {usersLoading && <p>loading users</p>}
       {users && (
         <List
@@ -85,6 +96,6 @@ export default GradesAndMore;
 
 // [{"id":1,"name":"Ivette Mitchell","created_at":"2021-12-08T18:21:06.007Z","updated_at":"2021-12-08T18:21:06.007Z"},{"id":2,"name":"Mariano Blanda","created_at":"2021-12-08T18:21:06.152Z","updated_at":"2021-12-08T18:21:06.152Z"},{"id":3,"name":"Delbert Grant","created_at":"2021-12-08T18:21:06.241Z","updated_at":"2021-12-08T18:21:06.241Z"},{"id":4,"name":"Odis Gleason","created_at":"2021-12-08T18:21:06.334Z","updated_at":"2021-12-08T18:21:06.334Z"},{"id":5,"name":"Jared Zieme DC","created_at":"2021-12-08T18:21:06.406Z","updated_at":"2021-12-08T18:21:06.406Z"}]
 // => map
-// options =[
+// options = [
 //   { key: '1', value: '1', text: 'Ivette Mitchell' },]
 // }
