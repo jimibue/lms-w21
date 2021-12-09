@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Divider, Form, Select } from "semantic-ui-react";
+import { Card, Divider, Form, Select } from "semantic-ui-react";
 import GradeFormBasic from "../components/GradeFormBasic";
 import StringifyJson from "../components/StringifyJson";
 import useAxiosOnMount from "../hooks/useAxiosOnMount";
 import SematicLoader from "../components/SemanticLoader";
+import List from "../components/List";
+import Grade from "./Grade";
 
 const GradesAndMore = () => {
   const {
@@ -30,17 +32,49 @@ const GradesAndMore = () => {
   return (
     <div>
       <h1>GradesAndMore</h1>
-      <h3>Users</h3>
       {usersLoading && <p>loading users</p>}
-      {users && <StringifyJson json={users} />}
-      <h3>Skills</h3>
+      {users && (
+        <List
+          data={users}
+          name={"Users"}
+          renderData={(user) => {
+            return <p>{user.name}</p>;
+          }}
+        />
+      )}
       {skillsLoading && <SematicLoader text="skills loading" />}
-      <StringifyJson json={skills} />
-      <h3>Grades</h3>
+      {/* NO renderdata prop */}
+      {skills && <List data={skills} name="Skills" />}
       {gradesError && <p>{gradesError}</p>}
-      <StringifyJson json={grades} />
 
-      {grades && grades.map((g) => <p>{g.id}</p>)}
+      {grades && (
+        <List
+          data={grades}
+          name="Grades"
+          renderData={({
+            score,
+            id,
+            user_name,
+            skill_name,
+            user_id,
+            skill_id,
+          }) => {
+            return (
+              <Card>
+                <Card.Content header={`${user_name}`} />
+                <Card.Content
+                  description={`score: ${score} on ${skill_name}`}
+                />
+                <Card.Content extra>
+                  <p>
+                    user id: {user_id} skill id: {skill_id}
+                  </p>
+                </Card.Content>
+              </Card>
+            );
+          }}
+        />
+      )}
       <Divider />
       <GradeFormBasic addGrade={addGrade} />
     </div>
