@@ -5,6 +5,8 @@ class Grade < ApplicationRecord
   def self.all_and_then_some
     # SQL CALL HERE (NOT TODAY)
 
+    # rails way
+
     # good old fashion ruby (bad way to do but works)
     grades = Grade.all
     grades.map do |grade|

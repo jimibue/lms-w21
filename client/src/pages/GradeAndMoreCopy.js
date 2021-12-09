@@ -3,19 +3,23 @@ import axios from "axios";
 import { Divider, Form, Select } from "semantic-ui-react";
 import GradeFormBasic from "../components/GradeFormBasic";
 import StringifyJson from "../components/StringifyJson";
-import useAxiosOnMount from "../hooks/useAxiosOnMount";
-import SematicLoader from "../components/SemanticLoader";
 
 const GradesAndMore = () => {
-  const {
-    data: grades,
-    error: gradesError,
-    setData: setGrades,
-  } = useAxiosOnMount("/api/grades");
-  const { data: users, loading: usersLoading } = useAxiosOnMount("/api/users");
-  const { data: skills, loading: skillsLoading } =
-    useAxiosOnMount("/api/skills");
+  const [grades, setGrades] = useState([]);
+  const [skills, setSkills] = useState([]);
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    getData();
+  }, []);
 
+  const getData = async () => {
+    let usersRes = await axios.get("/api/users");
+    setUsers(usersRes.data);
+    let skillsRes = await axios.get("/api/skills");
+    setSkills(skillsRes.data);
+    let gradesRes = await axios.get("/api/grades");
+    setGrades(gradesRes.data);
+  };
   const addGrade = async (grade) => {
     try {
       let res = await axios.post(`/api/grades`, grade);
@@ -31,18 +35,17 @@ const GradesAndMore = () => {
     <div>
       <h1>GradesAndMore</h1>
       <h3>Users</h3>
-      {usersLoading && <p>loading users</p>}
-      {users && <StringifyJson json={users} />}
+      <StringifyJson json={users} />
       <h3>Skills</h3>
-      {skillsLoading && <SematicLoader text="skills loading" />}
       <StringifyJson json={skills} />
       <h3>Grades</h3>
-      {gradesError && <p>{gradesError}</p>}
       <StringifyJson json={grades} />
-
-      {grades && grades.map((g) => <p>{g.id}</p>)}
       <Divider />
       <GradeFormBasic addGrade={addGrade} />
+      {/* <Form onSubmit={handleSubmit}> */}
+      {/* <Select options=[options] /> */}
+      {/* <Button>Demo</Button> */}
+      {/* </Form> */}
     </div>
   );
 };
