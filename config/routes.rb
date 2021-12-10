@@ -5,5 +5,7 @@ Rails.application.routes.draw do
     resources :skills
     resources :users
     resources :grades
+    resources :courses
+    resources :enrollments
   end
 end

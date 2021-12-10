@@ -33,5 +33,3 @@ two ways do this
 - `git add .`
 - `git commit -m 'init'`
 - `git remote add origin sshlink`
-
-
