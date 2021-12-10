@@ -9,6 +9,8 @@ import ComponentDemo from "./pages/CompentDemo";
 import GradesAndMore from "./pages/GradesAndMore";
 import Users from "./pages/Users";
 import Skills from "./pages/Skills";
+import Courses from "./pages/Courses";
+import Enrollments from "./pages/Enrollments";
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/things" component={Things} />
+          <Route exact path="/courses" component={Courses} />
+          <Route exact path="/enrollments" component={Enrollments} />
           <Route exact path="/users" component={Users} />
           <Route exact path="/skills" component={Skills} />
           <Route exact path="/components" component={ComponentDemo} />

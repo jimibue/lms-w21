@@ -9,7 +9,7 @@ const useAxiosOnMount = (url) => {
     // for testing UI want to remove this
     setTimeout(() => {
       getData();
-    }, 2000);
+    }, 400);
   }, []);
 
   const getData = async () => {
@@ -27,7 +27,7 @@ const useAxiosOnMount = (url) => {
     }
   };
 
-  return { data, error, setData, loading };
+  return { data: data, error: error, setData: setData, loading: loading };
 };
 
 export default useAxiosOnMount;
