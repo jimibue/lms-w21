@@ -16,7 +16,7 @@ const Courses = (props) => {
     return (
       <List
         data={courses}
-        name="List here"
+        name="Course List"
         renderData={(c) => {
           return (
             <Card>

@@ -1,3 +1,20 @@
+const getUserName = (id) => {
+  let user = users.find((u) => u.id === id);
+  return user.name;
+};
+const getUsers = (courseID) => {
+  // get enrollments from one course
+  course_enrolless = enrollments.filter((e) => e.course_id === 1);
+  let users = course_enrolless.map((ce) => {
+    // just return object
+    // return { user_id: ce.user_id, role: ce.role };
+    // than try to find name
+    let name = getUserName(ce.user_id);
+    return { name, role: ce.role };
+  });
+  return users;
+};
+
 const enrollments = [
   {
     id: 1,
@@ -79,27 +96,27 @@ const users = [
   },
 ];
 
-const getEnrolledUsers = (courseId) => {
-  let courseEnrollments = enrollments.filter((e) => e.course_id == courseId);
-  let usersData = courseEnrollments.map((ce) => {
-    let user = users.find((u) => u.id === ce.user_id);
-    return { name: user.name, role: ce.role };
-  });
-  return usersData;
-};
+//step 1 go through courses
+let step1 = courses.map((c) => {
+  return c.name;
+});
+console.log("step1: ", step1);
 
-const normalizeCourseData = () => {
-  let coursesData = courses.map((c) => {
-    return { name: c.name, users: getEnrolledUsers(c.id) };
-  });
+//step 2 match data structure to how you want
+let step2 = courses.map((c) => {
+  return { name: c.name, users: [] };
+});
+console.log("step2: ", step2);
 
-  return coursesData;
-};
+// step 3 getUsers() figure our how to get user
+// for a given course
 
-const x = normalizeCourseData();
-console.log("x", x);
+// or try to find the negrap the user_id and role
+// const user_data1 = course_enrolless.map((ce) => {
+//   return { user_id: ce.user_id, role: ce.role };
+// });
 
-// works
-// works
-// readibality
-// efficent
+let final = courses.map((c) => {
+  return { name: c.name, users: getUsers() };
+});
+console.log(final);
